@@ -5,24 +5,24 @@ using namespace std;
 class ToyFactory
 {
     public:
-        static Toy* createToy(int type)
+        static std::unique_ptr<Toy> createToy(int type)
         {
-            Toy *toy = NULL;
+            std::unique_ptr<Toy> toy;
             switch(type)
             {
                 case 1:
                 {
-                    toy = new Car;
+                    toy = std::make_unique<Car>();
                     break;
                 }
                 case 2:
                 {
-                    toy = new Bike;
+                    toy = std::make_unique<Bike>();
                     break;
                 }
                 case 3:
                 {
-                    toy = new Plane;
+                    toy = std::make_unique<Plane>();
                     break;
                 }
                 default:

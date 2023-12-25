@@ -1,4 +1,5 @@
 #include <iostream>
+#include <memory>
 using namespace std;
 #include "ToyFactory.cpp"
 
@@ -13,11 +14,10 @@ int main()
         {
             break;
         }
-        Toy *v = ToyFactory::createToy(type);
+        std::unique_ptr<Toy> v = std::move(ToyFactory::createToy(type));
         if(v)
         {
             v->showProduct();
-            delete v;
         }
     }
     cout<<"Exit ..."<<endl;
