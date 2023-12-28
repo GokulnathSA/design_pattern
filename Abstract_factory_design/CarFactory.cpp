@@ -1,33 +1,34 @@
 #include <iostream>
+#include <memory>
 #include "Car.cpp"
 using namespace std;
 
 class CarFactory
 {
     private:
-        Car *car;
+        unique_ptr<Car> car;
     protected:
-        virtual Tire *buildTire() = 0;
-        virtual Body *buildBody() = 0;
+        virtual unique_ptr<Tire> buildTire() = 0;
+        virtual unique_ptr<Body> buildBody() = 0;
     public:
-        virtual Car *buildWholeCar() = 0;
+        virtual unique_ptr<Car> buildWholeCar() = 0;
 };
 
 class SimpleCarFactory : public CarFactory
 {
-    Tire *buildTire()
+    unique_ptr<Tire> buildTire()
     {
-        return new SimpleTire();
+        return make_unique<SimpleTire>();
     }
 
-    Body *buildBody()
+    unique_ptr<Body> buildBody()
     {
-        return new SimpleBody();
+        return make_unique<SimpleBody>();
     }
 
-    Car *buildWholeCar()
+    unique_ptr<Car> buildWholeCar()
     {
-        Car *car = new Car("Simple_car");
+        unique_ptr<Car> car = make_unique<Car>("Simple_car");
         car->setTire(buildTire());
         car->setBody(buildBody());
         return car;
@@ -35,17 +36,17 @@ class SimpleCarFactory : public CarFactory
 };
 
 class LuxuryCarFactory : public CarFactory {
-	Tire * buildTire() 
+	unique_ptr<Tire> buildTire() 
     {
-		return new LuxuryTire();
+		return make_unique<LuxuryTire>();
 	}
-	Body * buildBody() 
+	unique_ptr<Body> buildBody() 
     {
-		return new LuxuryBody();
+		return make_unique<LuxuryBody>();
 	}
-	Car * buildWholeCar() 
+	unique_ptr<Car> buildWholeCar() 
     {
-		Car *car = new Car("LuxuryCar");
+		unique_ptr<Car> car = make_unique<Car>("LuxuryCar");
 		car->setTire(buildTire());
 		car->setBody(buildBody());
 		return car;

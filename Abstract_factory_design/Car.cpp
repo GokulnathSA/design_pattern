@@ -50,13 +50,13 @@ class Car
 {
     protected:
         string name;
-        Tire *tire;
-        Body *body;
+        unique_ptr<Tire> tire;
+        unique_ptr<Body> body;
     
     public:
         Car(string n):name(n){}
-        void setTire(Tire* t){tire = t;}
-        void setBody(Body *b){body = b;}
+        void setTire(unique_ptr<Tire> t){tire = std::move(t);}
+        void setBody(unique_ptr<Body> b){body = std::move(b);}
         void printDetails()
         {
 		    cout << endl << "Car: " << name << endl;
